@@ -4,7 +4,6 @@ from src.config.settings import Settings
 from src.repositories.user_repository import UserRepository
 from src.services.user_service import UserService
 
-
 app = FastAPI()
 settings = Settings()
 

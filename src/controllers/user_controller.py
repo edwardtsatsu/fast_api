@@ -1,13 +1,13 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
 from src.repositories.user_repository import UserRepository
-from ..models.user_model import UserIn, UserOut
+from ..models.user_resp import UserIn, UserOut
 from ..services.user_service import UserService
 from src.config import get_db
 
 
 user_router = APIRouter()
-user_repository = UserRepository(database=get_db())
+user_repository = UserRepository(db=get_db())
 user_service = UserService(user_repository)
 
 @user_router.post("/users", response_model=UserOut)

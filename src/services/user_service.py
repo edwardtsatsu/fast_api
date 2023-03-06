@@ -1,8 +1,7 @@
 from typing import List
-from src.models.user_in import UserIn
+from src.models.user_resp import UserIn
 from src.repositories.user_repository import UserRepository
 from sqlalchemy.orm import Session
-
 
 class UserService:
     def __init__(self, db_session: Session):
