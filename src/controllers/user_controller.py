@@ -1,22 +1,38 @@
-from fastapi import APIRouter, HTTPException
+import datetime
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List
+from sqlalchemy.orm import Session
+from src.models.user_model import User
 from src.repositories.user_repository import UserRepository
-from ..models.user_resp import UserIn, UserOut
+from ..schema.schema import UserIn, UserOut
 from ..services.user_service import UserService
-from src.config import get_db
+from src.config.db import get_db
 
 
 user_router = APIRouter()
 user_repository = UserRepository(db=get_db())
 user_service = UserService(user_repository)
 
-@user_router.post("/users", response_model=UserOut)
-async def create_user(user: UserIn):
-    new_user = user_service.create_user(user)
-    if new_user:
-        return new_user
-    else:
-        raise HTTPException(status_code=400, detail="User already exists")
+@user_router.post("/users")
+async def create_user(user: UserIn, db: Session = Depends(get_db)):
+    to_create = User(
+        username=user.username,
+        email=user.email,
+        password=user.password,
+        created_on = datetime.datetime.today()
+    )
+
+    db.add(to_create)
+    db.commit()
+    return {
+        "success": True,
+        "created_id": "okay"
+    }
+    # new_user = user_service.create_user(user)
+    # if new_user:
+    #     return new_user
+    # else:
+    #     raise HTTPException(status_code=400, detail="User already exists")
 
 
 @user_router.get("/users", response_model=List[UserOut])

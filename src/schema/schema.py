@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from sqlalchemy import DateTime
 
 
 class UserIn(BaseModel):
@@ -11,3 +12,4 @@ class UserOut(BaseModel):
     username: str
     email: str
     password: str
+    created_on: str

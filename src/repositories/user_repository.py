@@ -1,18 +1,20 @@
 from typing import List
+from fastapi import Depends
 from sqlalchemy.orm import Session
+from src.config.db import get_db
 from src.models.user_model import User
 from src.repositories.base_repository import BaseRepository
 
 
 class UserRepository(BaseRepository):
-    def __init__(self, db: Session):
+    def __init__(self, db: Session = Depends(get_db)):
         super().__init__(db)
 
     def add(self, entity) -> None:
         self._db.add(entity)
         self._db.commit()
 
-    def create(self, user: User) -> User:
+    def create(self, user: User,db: Session = Depends(get_db)) -> User:
         self.add(user)
         self._db.refresh(user)
         return user
