@@ -1,13 +1,9 @@
 from pydantic import BaseSettings
 
-
 class Settings(BaseSettings):
-    app_name: str = "My FastAPI App"
-    app_description: str = "A cool FastAPI app"
-    log_level: str = "debug"
-    database_url: str
-    redis_url: str
+    app_name: str = "My Project"
+    debug: bool = False
+    database_url: str = "postgresql://user:password@localhost/mydatabase"
+    redis_url: str = "redis://localhost:6379"
 
-    class Config:
-        env_file = ".env"
-        env_prefix = "MYAPP_"
+settings = Settings()

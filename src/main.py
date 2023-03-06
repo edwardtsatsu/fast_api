@@ -1,13 +1,23 @@
 from fastapi import FastAPI
-from controllers.user_controller import router as user_router
-from services.user_service import UserService
+from src.controllers.user_controller import user_router
+from src.config.settings import Settings
+# from src.repositories.user_repository import UserRepository
+from src.services.user_service import UserService
+
 
 app = FastAPI()
-app.include_router(user_router)
+settings = Settings()
 
-user_service = UserService()
+# Initialize repositories
+# user_repository = UserRepository(settings.database_uri)
+
+# Initialize services
+# user_service = UserService(user_repository)
+
+# Include routers
+app.include_router(user_router)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 

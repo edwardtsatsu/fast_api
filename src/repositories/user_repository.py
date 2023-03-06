@@ -1,7 +1,8 @@
 from typing import List
 from sqlalchemy.orm import Session
 from src.models.user_model import User
-from src.repositories.user_repository import BaseRepository
+from src.repositories.base_repository import BaseRepository
+
 
 class UserRepository(BaseRepository):
     def __init__(self, db: Session):
