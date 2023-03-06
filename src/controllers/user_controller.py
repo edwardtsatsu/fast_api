@@ -4,12 +4,10 @@ from src.repositories.user_repository import UserRepository
 from ..models.user_model import UserIn, UserOut
 from ..services.user_service import UserService
 from src.config import get_db
-from sqlalchemy.orm import Session
 
 
 user_router = APIRouter()
-db_session = get_db()
-user_repository = UserRepository(db=db_session)
+user_repository = UserRepository(database=get_db())
 user_service = UserService(user_repository)
 
 @user_router.post("/users", response_model=UserOut)
@@ -21,9 +19,9 @@ async def create_user(user: UserIn):
         raise HTTPException(status_code=400, detail="User already exists")
 
 
-@user_router.get("/users")
-async def read_users():
-    return user_service.get_all_users
+@user_router.get("/users", response_model=List[UserOut])
+async def read_users(skip: int = 0, limit: int = 100):
+    return user_service.get_users(skip, limit)
 
 
 @user_router.get("/users/{user_id}", response_model=UserOut)
