@@ -14,9 +14,11 @@ async def create_user(user: UserIn):
     else:
         raise HTTPException(status_code=400, detail="User already exists")
 
+
 @router.get("/users", response_model=List[UserOut])
 async def read_users(skip: int = 0, limit: int = 100):
     return user_service.get_users(skip, limit)
+
 
 @router.get("/users/{user_id}", response_model=UserOut)
 async def read_user(user_id: int):
@@ -26,6 +28,7 @@ async def read_user(user_id: int):
     else:
         raise HTTPException(status_code=404, detail="User not found")
 
+
 @router.put("/users/{user_id}", response_model=UserOut)
 async def update_user(user_id: int, user: UserIn):
     updated_user = user_service.update_user(user_id, user)
@@ -33,6 +36,7 @@ async def update_user(user_id: int, user: UserIn):
         return updated_user
     else:
         raise HTTPException(status_code=404, detail="User not found")
+
 
 @router.delete("/users/{user_id}")
 async def delete_user(user_id: int):
