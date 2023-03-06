@@ -16,7 +16,7 @@ class BaseRepository:
         return self._db.query(self.model).all()
 
     def update(self, entity) -> None:
-        self._db.add(entity)
+        self._db.merge(entity)
         self._db.commit()
 
     def delete(self, entity) -> None:

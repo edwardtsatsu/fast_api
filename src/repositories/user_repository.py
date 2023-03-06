@@ -8,9 +8,12 @@ class UserRepository(BaseRepository):
     def __init__(self, db: Session):
         super().__init__(db)
 
-    def create(self, user: User) -> User:
-        self._db.add(user)
+    def add(self, entity) -> None:
+        self._db.add(entity)
         self._db.commit()
+
+    def create(self, user: User) -> User:
+        self.add(user)
         self._db.refresh(user)
         return user
 
